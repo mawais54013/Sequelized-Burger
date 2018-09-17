@@ -1,0 +1,60 @@
+<h1 class="uk-heading-line uk-text-center"><span>Video Game Organizer</span></h1>
+<br>
+<br>
+{{!-- FYI i do not like handlebars  --}}
+<div class="uk-child-width-expand@s uk-text-center" uk-grid>
+    <div>
+        <div class="uk-card uk-card-primary uk-card-body">
+            <h2>Games added</h2>
+
+            <ul>
+                {{!-- for each game if it is not bad then it will be shown here  --}}
+                {{#each burgers}}
+                        {{#unless this.bad}}
+                            <li>
+                            <p class="gameType">{{this.game_name}}</p>
+                            <form action="/{{this.id}}?_method=PUT"method="POST">
+                                <input type="hidden" name="bad" value="true">
+                                <button class="btnBad" type="submit">Add to list</button>
+                            </form>                          
+                            </li>
+                        {{/unless}}
+                {{/each}}
+                
+            </ul>
+        </div>
+    </div>
+    <div>
+        {{!-- used to create a new game entry --}}
+        <div class="uk-card uk-card-secondary uk-card-body">
+            <h2>Add a Game</h2>
+             <div class="form-group">
+                <form method="POST" action="/" class="addOne text-center">
+                    <textarea id="textArea" type="text" name="game_name" rows="2" cols="40"></textarea>
+                    <button id="btnCreate"  type="submit" >Add your game</button>
+                </form>
+            </div>
+            </form>
+
+        </div>
+    </div>
+    <div>
+        <div class="uk-card uk-card-primary uk-card-body">
+            <h2>Games added to your List </h2>
+{{!-- this is where the games that are bad located  --}}
+            <ul>
+            {{#each burgers}}  
+            {{!-- if a game is bad then put here  --}}
+                    {{#if this.bad}}
+                        <li>
+                        {{this.game_name}}
+                        </li>
+                    {{/if}}
+            {{/each}}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
