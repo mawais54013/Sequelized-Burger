@@ -6,10 +6,6 @@ var connection = require('../config/connection.js');
 // get all from the database and then show them on the DOM 
 model.burger.sync();
 
-// router.get("/", function(req, res) {
-//  res.redirect("/burgers");
-// });
-
 router.get('/', function (req, res) {
   model.burger.findAll({}).then(function(data) {
     res.render("index", {burgers : data});
@@ -29,16 +25,6 @@ router.post("/", function(req, res) {
   });
 });
 
-// router.post("/burgers/updateOne/:id", function(req, res)
-// {
-//   model.burger.create({
-//     game_name: req.body.game_name,
-//     bad: true
-//   }).then(function ()
-//   {
-//     res.redirect("/burgers");
-//   })
-// });
 // this looks for the id of a game and later on changing the bad value of the game wheather it was good or bad 
 router.put("/:id", function(req, res) {
   console.log("======================")

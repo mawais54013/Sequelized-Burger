@@ -1,66 +1,53 @@
 # Game Organizer
 
-This program allows the user especially gamers to store which videos they like over others. The user can add games and select whether they are good or bad. Then later if they choose, the user can change the video games if they find it better than expected. Other than that enjoy gaming!!!!
+This program allows the user especially gamers to store which videos games they would like to add to their list. The user can add the game and then decide if they want to it to be a part of their list.
 
-[Game Organizer](http://localhost:3000/)
+[Game Organizer](https://boiling-brushlands-16591.herokuapp.com/)
 
 [Portfolio](https://mawais54013.github.io/New-Portfolio/)
 
 # Images
 
-![website](public/assets/images/Screen1.png)
+![website](public/assets/images/Screen2.png)
 
 This is a pic of the website deployed from Heroku and also includes various games I included but more can be added with just a keyboard away.
 
 
 # Technology Used
-- Handlebars.js
 - Express.js
 - Javascript
 - JQuery
-- MYSQL
+- MYSQL2
 - Node.js
-- ORM middleware
 - Heroku
+- Sequelize
+- Handlebars.js
 
 # Code Snippets
-1) The following code snippet is a middleware I used called ORM, this allows the program to take functions and receive data from the database to response back. In this case, this code is selecting all information from the database and using a callback function to return it. 
+1) The following code snippet is used to add a new game to the list. Instead of using the ORM this does it directly which is easier and saves time along with space that would originally be used in ORM. 
 ```
-var orm = {
-    selectAll: function(tableInput, cb)
-    {
-    var queryString = "SELECT * FROM " + tableInput + ";";
-    connection.query(queryString, function(err, result)
-    {
-        if(err)
-        {
-            throw err;
-        }
-        cb(result);
-    });
-    },
-}
-```
-2) The next code is used to make a ajax call to perform a function. In this case, I take the information the user inputted as a variable object with two keys to transfer to /api/burgers to POST them to the database and later in the code to give them attributes and show them on the DOM. 
-```
-$(".create-form").on("submit", function(event) {
-event.preventDefault();
-var newGame = {
-    name: $("#gameName").val().trim(),
-
-    // two values provided 
-    bad: $("[name=bad]:checked").val().trim()
-};
-$.ajax("/api/burgers", {
-    type: "POST",
-    data: newGame
-}).then(function()
-{
-    console.log("adding a new game");
-    location.reload();
-})
-
+router.post("/", function(req, res) {
+  var newBurger = req.body.game_name;
+  console.log(newBurger + "============");
+  model.burger.create({
+    game_name: newBurger,
+    bad: 0
+  })
+  .then(function () {
+    res.redirect("/");
+  });
 });
+```
+2) The next code sets the variables in the database and exports them so they can used in both the controller and the handlebars. I give it two values just like the original version using ORM is the name and the boolean option of true or false. The boolean is key to change the game from the added list to the user's own list. 
+```
+'use strict';
+module.exports = function(sequelize, DataTypes) {
+  var burger = sequelize.define('burger', {
+  game_name: DataTypes.STRING,
+  bad: DataTypes.BOOLEAN
+  });
+  return burger;
+};
 ```
 
 # Author 
